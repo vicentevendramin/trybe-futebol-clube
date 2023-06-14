@@ -1,4 +1,4 @@
-export default [
+export const teamsMock = [
   {
     id: 1,
     teamName: 'Avaí/Kindermann'
