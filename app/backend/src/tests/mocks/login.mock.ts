@@ -1,6 +1,16 @@
 const loginWithoutPassword = { email: 'tryber@betrybe.com' };
 
+const loginWithInvalidPassword = {
+  email: 'tryber@betrybe.com',
+  password: '1234',
+};
+
 const loginWithoutEmail = { password: 'senhasecreta' };
+
+const loginWithInvalidEmail = {
+  email: 'tryber.com',
+  password: 'senhasecreta',
+};
 
 const userMock = {
   username: 'test',
@@ -11,6 +21,8 @@ const userMock = {
 
 export {
   loginWithoutPassword,
+  loginWithInvalidPassword,
   loginWithoutEmail,
+  loginWithInvalidEmail,
   userMock,
 };

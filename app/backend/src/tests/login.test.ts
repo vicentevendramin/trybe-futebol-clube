@@ -7,9 +7,11 @@ import { app } from '../app';
 import UsersModel from '../database/models/UsersModel';
 import {
   loginWithoutPassword,
+  loginWithInvalidPassword,
   loginWithoutEmail,
+  loginWithInvalidEmail,
   userMock,
-} from './mocks/login.mocks';
+} from './mocks/login.mock';
 
 chai.use(chaiHttp);
 
@@ -38,11 +40,27 @@ describe('POST no endpoint /login', function () {
     expect(response.body).to.have.property('message', 'All fields must be filled');
   });
 
+  it('Deve retornar um erro se o email for inválido', async function () {
+    const response = await chai.request(app)
+      .post('/login').send(loginWithInvalidEmail);
+    
+    expect(response.status).to.be.eq(401);
+    expect(response.body).to.have.property('message', 'Invalid email or password');
+  });
+
   it('Deve retornar um erro se o password não estiver preenchido', async function () {
     const response = await chai.request(app)
       .post('/login').send(loginWithoutPassword);
     
     expect(response.status).to.be.eq(400);
     expect(response.body).to.have.property('message', 'All fields must be filled');
+  });
+
+  it('Deve retornar um erro se o password for inválido', async function () {
+    const response = await chai.request(app)
+      .post('/login').send(loginWithInvalidPassword);
+    
+    expect(response.status).to.be.eq(401);
+    expect(response.body).to.have.property('message', 'Invalid email or password');
   });
 });
