@@ -12,8 +12,6 @@ class UsersController {
   async login(req: Request, res: Response): Promise<Response> {
     const { email, password } = req.body;
 
-    const invalidLogin = res.status(401).json({ message: 'Invalid email or password' });
-
     const validations = loginValidations(email, password);
     if (validations) {
       return res.status(validations.status).json({ message: validations.message });
@@ -21,12 +19,12 @@ class UsersController {
 
     const login = await this.usersService.login(email);
     if (!login) {
-      return invalidLogin;
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
 
     const passwordBcrypt = bcrypt.compareSync(password, login.password);
     if (!passwordBcrypt) {
-      return invalidLogin;
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
 
     const jwtPayload = { email: login.email, role: login.role };
