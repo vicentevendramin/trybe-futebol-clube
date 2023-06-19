@@ -30,7 +30,7 @@ export default {
         allowNull: false,
         field: 'away_team_goals',
       },
-      inProgres: {
+      inProgress: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         field: 'in_progress',
