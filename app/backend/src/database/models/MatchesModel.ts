@@ -4,6 +4,7 @@ import {
   CreationOptional,
 } from 'sequelize';
 import db from '.';
+import TeamsModel from './TeamsModel';
 
 class MatchesModel extends Model {
   declare id: CreationOptional<number>;
@@ -52,5 +53,11 @@ MatchesModel.init({
   timestamps: false,
   underscored: true,
 });
+
+TeamsModel.hasMany(MatchesModel, { foreignKey: 'homeTeamId' });
+TeamsModel.hasMany(MatchesModel, { foreignKey: 'awayTeamId' });
+
+MatchesModel.belongsTo(TeamsModel, { foreignKey: 'homeTeamId', as: 'homeTeam' });
+MatchesModel.belongsTo(TeamsModel, { foreignKey: 'awayTeamId', as: 'awayTeam' });
 
 export default MatchesModel;
