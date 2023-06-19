@@ -17,6 +17,18 @@ class MatchesService {
     };
     return this.matchesModel.findAll(matches);
   }
+
+  public async getProgressMatches(inProgress: boolean): Promise<IMatches[]> {
+    const matches = {
+      where: { inProgress },
+      include: [
+        { model: Teams, as: 'homeTeam', attributes: ['teamName'] },
+        { model: Teams, as: 'awayTeam', attributes: ['teamName'] },
+      ],
+    };
+
+    return this.matchesModel.findAll(matches);
+  }
 }
 
 export default MatchesService;
