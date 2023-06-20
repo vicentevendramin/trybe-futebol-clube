@@ -6,7 +6,7 @@ class MatchesController {
     private matchesService: MatchesService,
   ) { }
 
-  public async getAllMatches(req: Request, res: Response): Promise<Response> {
+  async getAllMatches(req: Request, res: Response): Promise<Response> {
     const { inProgress } = req.query;
 
     if (!inProgress) {
@@ -21,6 +21,15 @@ class MatchesController {
 
     const finishedMatches = await this.matchesService.getProgressMatches(false);
     return res.status(200).json(finishedMatches);
+  }
+
+  async finishMatch(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    const response = await this.matchesService.finishMatch(Number(id));
+
+    return response ? res.status(200).json({ message: 'Finished' })
+      : res.status(404).json({ message: 'Team does not exist' });
   }
 }
 

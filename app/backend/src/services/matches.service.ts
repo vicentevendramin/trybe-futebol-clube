@@ -8,7 +8,7 @@ class MatchesService {
     private matchesModel: ModelStatic<Matches>,
   ) { }
 
-  public async getAllMatches(): Promise<IMatches[]> {
+  async getAllMatches(): Promise<IMatches[]> {
     const matches = {
       include: [
         { model: Teams, as: 'homeTeam', attributes: ['teamName'] },
@@ -18,7 +18,7 @@ class MatchesService {
     return this.matchesModel.findAll(matches);
   }
 
-  public async getProgressMatches(inProgress: boolean): Promise<IMatches[]> {
+  async getProgressMatches(inProgress: boolean): Promise<IMatches[]> {
     const matches = {
       where: { inProgress },
       include: [
@@ -28,6 +28,11 @@ class MatchesService {
     };
 
     return this.matchesModel.findAll(matches);
+  }
+
+  async finishMatch(id: number) {
+    const [status] = await this.matchesModel.update({ inProgress: false }, { where: { id } });
+    return status;
   }
 }
 
