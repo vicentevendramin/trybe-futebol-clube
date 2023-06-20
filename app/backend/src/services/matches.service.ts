@@ -3,6 +3,7 @@ import IMatches from '../Interfaces/Matches';
 import Matches from '../database/models/MatchesModel';
 import Teams from '../database/models/TeamsModel';
 import IScore from '../Interfaces/Score';
+import INewMatch from '../Interfaces/NewMatch';
 
 class MatchesService {
   constructor(
@@ -39,6 +40,12 @@ class MatchesService {
   async updateMatch(id: number, newScore: IScore) {
     const [status] = await this.matchesModel.update(newScore, { where: { id, inProgress: true } });
     return status;
+  }
+
+  async createMatch(newMatch: INewMatch) {
+    const match = { ...newMatch, inProgress: true };
+    const { dataValues: { id } } = await this.matchesModel.create(match);
+    return this.matchesModel.findOne({ where: { id } });
   }
 }
 

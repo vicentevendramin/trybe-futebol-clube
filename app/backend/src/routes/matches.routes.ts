@@ -10,6 +10,11 @@ const matchesService = new MatchesService(MatchesModel);
 const matchesController = new MatchesController(matchesService);
 
 router.get('/', (req: Request, res: Response) => matchesController.getAllMatches(req, res));
+router.post(
+  '/',
+  roleMiddleware,
+  (req: Request, res: Response) => matchesController.createMatch(req, res),
+);
 router.patch(
   '/:id/finish',
   roleMiddleware,

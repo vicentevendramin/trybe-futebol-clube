@@ -40,6 +40,12 @@ class MatchesController {
     return response ? res.status(200).json({ message: 'Updated' })
       : res.status(400).json({ message: 'All fields must be filled' });
   }
+
+  async createMatch(req: Request, res: Response): Promise<Response> {
+    const match = await this.matchesService.createMatch(req.body);
+
+    return res.status(201).json(match);
+  }
 }
 
 export default MatchesController;
