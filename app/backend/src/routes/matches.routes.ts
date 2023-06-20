@@ -15,5 +15,10 @@ router.patch(
   roleMiddleware,
   (req: Request, res: Response) => matchesController.finishMatch(req, res),
 );
+router.patch(
+  '/:id',
+  roleMiddleware,
+  (req: Request, res: Response) => matchesController.updateMatch(req, res),
+);
 
 export default router;

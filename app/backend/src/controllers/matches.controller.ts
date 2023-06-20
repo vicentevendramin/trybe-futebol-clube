@@ -31,6 +31,15 @@ class MatchesController {
     return response ? res.status(200).json({ message: 'Finished' })
       : res.status(404).json({ message: 'Team does not exist' });
   }
+
+  async updateMatch(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    const response = await this.matchesService.updateMatch(Number(id), req.body);
+
+    return response ? res.status(200).json({ message: 'Updated' })
+      : res.status(400).json({ message: 'All fields must be filled' });
+  }
 }
 
 export default MatchesController;

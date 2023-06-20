@@ -2,6 +2,7 @@ import { ModelStatic } from 'sequelize';
 import IMatches from '../Interfaces/Matches';
 import Matches from '../database/models/MatchesModel';
 import Teams from '../database/models/TeamsModel';
+import IScore from '../Interfaces/Score';
 
 class MatchesService {
   constructor(
@@ -32,6 +33,11 @@ class MatchesService {
 
   async finishMatch(id: number) {
     const [status] = await this.matchesModel.update({ inProgress: false }, { where: { id } });
+    return status;
+  }
+
+  async updateMatch(id: number, newScore: IScore) {
+    const [status] = await this.matchesModel.update(newScore, { where: { id, inProgress: true } });
     return status;
   }
 }
