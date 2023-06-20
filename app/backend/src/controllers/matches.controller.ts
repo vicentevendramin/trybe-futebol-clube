@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import MatchesService from '../services/matches.service';
+import validateMatch from '../utils/matchValidations';
 
 class MatchesController {
   constructor(
@@ -42,6 +43,10 @@ class MatchesController {
   }
 
   async createMatch(req: Request, res: Response): Promise<Response> {
+    const validations = validateMatch(req.body);
+
+    if (validations) return res.status(validations.status).json({ message: validations.message });
+
     const match = await this.matchesService.createMatch(req.body);
 
     return res.status(201).json(match);
